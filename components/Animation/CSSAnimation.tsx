@@ -14,9 +14,7 @@ const CSSAnimation = ({
 
   const onAnimationEnd = useCallback(
     (e: React.AnimationEvent<HTMLDivElement>) => {
-      if (!(e.target instanceof HTMLElement)) {
-        return;
-      }
+      if (!(e.target instanceof HTMLElement)) return;
       if (e.target.id !== animationId) return;
       if (show) {
         animationCallbackFunctions?.onEndShow?.();
