@@ -28,7 +28,8 @@ const SpringAnimation = ({
         },
       });
       animationCallbackFunctions?.onStartShow?.();
-    } else {
+    }
+    if (!show) {
       api.start({
         opacity: 0,
         onRest: () => {
@@ -38,7 +39,7 @@ const SpringAnimation = ({
       });
       animationCallbackFunctions?.onStartHide?.();
     }
-  }, [show, animationCallbackFunctions, api]);
+  }, [show, api, animationCallbackFunctions]);
 
   return visible ? (
     <animated.div style={{ ...springs }}>{children}</animated.div>

@@ -1,5 +1,6 @@
 import CSSAnimation from "@/components/Animation/CSSAnimation";
 import FramerMotionAnimation from "@/components/Animation/FramerMotionAnimation";
+import ReactTransitionAnimation from "@/components/Animation/ReactTransitionAnimation";
 import SpringAnimation from "@/components/Animation/SpringAnimation";
 import { AnimationVariantsType } from "@/pages";
 import { AnimationProps } from "@/types/Animation";
@@ -51,6 +52,18 @@ const PopUp = ({
         </div>
       </FramerMotionAnimation>
     );
+  } else if (type === "Transition") {
+    return (
+      <ReactTransitionAnimation
+        show={show}
+        animationCallbackFunctions={animationCallbackFunctions}
+        animationcss={styles.popUpAnimation}
+      >
+        <div css={styles.background}>
+          <div css={styles.popUp}>{children}</div>
+        </div>
+      </ReactTransitionAnimation>
+    );
   } else {
     throw new Error("Invalid type");
   }
@@ -98,7 +111,7 @@ const styles = {
   `,
 
   popUpAnimation: (show: boolean) => css`
-    animation: 0.5s ease-in-out 0s 1 normal forwards running
+    animation: 2s ease-in-out 0s 1 normal forwards running
       ${show ? keyframe.fadeIn : keyframe.fadeOut};
   `,
 };

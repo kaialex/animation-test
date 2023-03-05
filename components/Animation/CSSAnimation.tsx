@@ -1,5 +1,5 @@
 import { AnimationDetailedProps } from "@/types/Animation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 const CSSAnimation = ({
   show,
@@ -8,30 +8,41 @@ const CSSAnimation = ({
   animationCallbackFunctions,
 }: AnimationDetailedProps) => {
   const [visible, setVisible] = useState(show);
+  const animationId = useMemo(() => {
+    return "animation-" + Math.random().toString(32).substring(2);
+  }, []);
 
-  const onAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    if (show) {
-      animationCallbackFunctions?.onEndShow?.();
-    } else {
-      setVisible(false);
-      animationCallbackFunctions?.onEndHide?.();
-    }
-  };
+  const onAnimationEnd = useCallback(
+    (e: React.AnimationEvent<HTMLDivElement>) => {
+      if (!(e.target instanceof HTMLElement)) {
+        return;
+      }
+      if (e.target.id !== animationId) return;
+      if (show) {
+        animationCallbackFunctions?.onEndShow?.();
+      } else {
+        setVisible(false);
+        animationCallbackFunctions?.onEndHide?.();
+      }
+    },
+    [animationCallbackFunctions, animationId, show]
+  );
 
   useEffect(() => {
-    if (show) {
+    if (show && !visible) {
       setVisible(true);
       animationCallbackFunctions?.onStartShow?.();
-    } else {
+    }
+    if (!show && visible) {
       animationCallbackFunctions?.onStartHide?.();
     }
-  }, [show, animationCallbackFunctions]);
+  }, [show, animationCallbackFunctions, visible]);
 
   return visible ? (
     <div
       onAnimationEnd={(e) => onAnimationEnd(e)}
       css={() => animationcss(show)}
+      id={animationId}
     >
       {children}
     </div>

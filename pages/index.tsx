@@ -1,14 +1,20 @@
 import Head from "next/head";
 import PopUp from "@/components/PopUp/popUp";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import { useState } from "react";
 
-const animationVariantsList = ["CSS", "Spring", "FramerMotion"] as const;
+const animationVariantsList = [
+  "CSS",
+  "Spring",
+  "FramerMotion",
+  "Transition",
+] as const;
 
 export type AnimationVariantsType = typeof animationVariantsList[number];
 
 export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
+  const [InsideAnimation, setInsideAnimation] = useState(false);
   const [animationVariants, setAnimationVariants] =
     useState<AnimationVariantsType>("CSS");
 
@@ -61,8 +67,39 @@ export default function Home() {
           >
             CLOSE
           </button>
+          <p
+            css={styles.Inside(InsideAnimation)}
+            onAnimationEnd={() => setInsideAnimation(false)}
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+          </p>
+          <button onClick={() => setInsideAnimation(true)}>Animate</button>
         </PopUp>
       </main>
     </>
   );
 }
+
+const keyframe = {
+  testAnimation: keyframes`
+    0% {
+      background-color: red;
+    },
+    100% {
+      background-color: blue;
+    }
+  `,
+};
+
+const styles = {
+  Inside: (show: boolean) => {
+    return show
+      ? css`
+          animation: ${keyframe.testAnimation} 3s ease-in-out;
+          padding: 5px;
+        `
+      : css`
+          padding: 5px;
+        `;
+  },
+};
