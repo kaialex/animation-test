@@ -75,21 +75,17 @@ const keyframe = {
   fadeIn: keyframes`
     0% {
       opacity: 0;
-      background-color: red;
     }
     100% {
       opacity: 1;
-      background-color: green;
     }
   `,
   fadeOut: keyframes`
     0% {
       opacity: 1;
-      background-color: green;
     }
     100% {
       opacity: 0;
-      background-color: red;
     }
   `,
 };

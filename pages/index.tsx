@@ -41,7 +41,12 @@ export default function Home() {
               `}
               onClick={() => {
                 setAnimationVariants(animationVariant);
-                setShowPopup(true);
+                // setShowPopup(true);を同時に行うと、再レンダリングが二度内部で走ることになるため、
+                // CSSアニメーションおよびSpringではuseEffectの関係でonStartShowが二度走ってしまう。そのため、わざと時間をずらしている。
+                // setShowPopup(true);
+                setTimeout(() => {
+                  setShowPopup(true);
+                }, 100);
               }}
             >
               OPEN:{animationVariant}

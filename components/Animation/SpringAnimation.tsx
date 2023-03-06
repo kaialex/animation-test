@@ -1,5 +1,5 @@
 import { AnimationProps } from "@/types/Animation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
 const SpringAnimation = ({
@@ -19,7 +19,7 @@ const SpringAnimation = ({
   });
 
   useEffect(() => {
-    if (show) {
+    if (show && !visible) {
       setVisible(true);
       api.start({
         opacity: 1,
@@ -29,7 +29,7 @@ const SpringAnimation = ({
       });
       animationCallbackFunctions?.onStartShow?.();
     }
-    if (!show) {
+    if (!show && visible) {
       api.start({
         opacity: 0,
         onRest: () => {
@@ -39,7 +39,7 @@ const SpringAnimation = ({
       });
       animationCallbackFunctions?.onStartHide?.();
     }
-  }, [show, api, animationCallbackFunctions]);
+  }, [show, api, animationCallbackFunctions, visible]);
 
   return visible ? (
     <animated.div style={{ ...springs }}>{children}</animated.div>
