@@ -1,12 +1,14 @@
 import { AnimationDetailedProps } from "@/types/Animation";
+import { Interpolation, Theme, SerializedStyles } from "@emotion/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 const CSSAnimation = ({
   show,
   children,
+  elementcss,
   animationcss,
   animationCallbackFunctions,
-}: AnimationDetailedProps) => {
+}: AnimationDetailedProps & { elementcss?: Interpolation<Theme> }) => {
   const [visible, setVisible] = useState(show);
   const animationId = useMemo(() => {
     return "animation-" + Math.random().toString(32).substring(2);
@@ -39,7 +41,7 @@ const CSSAnimation = ({
   return visible ? (
     <div
       onAnimationEnd={(e) => onAnimationEnd(e)}
-      css={() => animationcss(show)}
+      css={[animationcss(show), elementcss]}
       id={animationId}
     >
       {children}

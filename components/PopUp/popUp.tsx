@@ -24,10 +24,12 @@ const PopUp = ({
         show={show}
         animationCallbackFunctions={animationCallbackFunctions}
         animationcss={styles.popUpAnimation}
+        elementcss={styles.background}
       >
-        <div css={styles.background}>
+        {/* <div css={styles.background}>
           <div css={styles.popUp}>{children}</div>
-        </div>
+        </div> */}
+        <div css={styles.popUp}>{children}</div>
       </CSSAnimation>
     );
   } else if (type === "Spring") {
@@ -73,17 +75,21 @@ const keyframe = {
   fadeIn: keyframes`
     0% {
       opacity: 0;
+      background-color: red;
     }
     100% {
       opacity: 1;
+      background-color: green;
     }
   `,
   fadeOut: keyframes`
     0% {
       opacity: 1;
+      background-color: green;
     }
     100% {
       opacity: 0;
+      background-color: red;
     }
   `,
 };

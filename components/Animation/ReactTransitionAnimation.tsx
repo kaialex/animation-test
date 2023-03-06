@@ -12,7 +12,7 @@ const ReactTransitionAnimation = ({
   return (
     <Transition
       in={show}
-      mountOnEnter
+      appear
       unmountOnExit
       timeout={2000}
       onEntering={() => animationCallbackFunctions?.onStartShow?.()}
